@@ -31,6 +31,10 @@ class BuiltCollectionTestHelpers {
           Object map, int hashCode) =>
       OverriddenHashcodeBuiltMap<String, String>(map, hashCode);
 
+  static BuiltMap<int, String?> overridenHashcodeBuiltMapWithNullableValues(
+          Object map, int hashCode) =>
+      OverriddenHashcodeBuiltMap<int, String?>(map, hashCode);
+
   static BuiltSet<int> overridenHashcodeBuiltSet(
           Iterable iterable, int hashCode) =>
       OverriddenHashcodeBuiltSet<int>(iterable, hashCode);

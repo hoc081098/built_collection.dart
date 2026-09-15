@@ -102,6 +102,8 @@ abstract class BuiltMap<K, V> {
     if (other.hashCode != hashCode) return false;
     for (var key in keys) {
       if (other[key] != this[key]) return false;
+      // A lookup can't distinguish a missing key from one mapped to null.
+      if (!other.containsKey(key)) return false;
     }
     return true;
   }
@@ -115,10 +117,10 @@ abstract class BuiltMap<K, V> {
   V? operator [](Object? key) => _map[key];
 
   /// As [Map.containsKey].
-  bool containsKey(Object key) => _map.containsKey(key);
+  bool containsKey(Object? key) => _map.containsKey(key);
 
   /// As [Map.containsValue].
-  bool containsValue(Object value) => _map.containsValue(value);
+  bool containsValue(Object? value) => _map.containsValue(value);
 
   /// As [Map.forEach].
   void forEach(void Function(K, V) f) {

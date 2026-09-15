@@ -4,6 +4,8 @@
 
 - Remove `from` constructor from `BuiltList`.
 - Add `of` constructors to `ListBuilder` and `SetBuilder`.
+- Fix `BuiltMap` equality when maps with nullable values have different keys.
+- Allow nullable arguments to `BuiltMap.containsKey` and `containsValue`.
 
 ## 5.1.1
 

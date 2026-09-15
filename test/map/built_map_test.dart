@@ -3,8 +3,9 @@
 // license that can be found in the LICENSE file.
 
 import 'dart:collection' show SplayTreeMap;
-import 'package:built_collection/src/map.dart';
+
 import 'package:built_collection/src/internal/test_helpers.dart';
+import 'package:built_collection/src/map.dart';
 import 'package:test/test.dart';
 
 import '../performance.dart';
@@ -211,9 +212,7 @@ void main() {
     });
 
     test('compares not equal to different type', () {
-      expect(
-          // ignore: unrelated_type_equality_checks
-          BuiltMap<int, String>({1: '1', 2: '2', 3: '3'}) == '',
+      expect((BuiltMap<int, String>({1: '1', 2: '2', 3: '3'}) as Object) == '',
           isFalse);
     });
 
@@ -242,10 +241,21 @@ void main() {
           isFalse);
     });
 
+    test('compares not equal to different keys with null values', () {
+      // Matching lengths and hash codes ensure equality compares the entries.
+      expect(
+        BuiltCollectionTestHelpers.overridenHashcodeBuiltMapWithNullableValues(
+                {1: null}, 0) ==
+            BuiltCollectionTestHelpers
+                .overridenHashcodeBuiltMapWithNullableValues({2: null}, 0),
+        isFalse,
+      );
+    });
+
     test('compares without throwing for same hashcode different key type', () {
       expect(
-          // ignore: unrelated_type_equality_checks
-          BuiltCollectionTestHelpers.overridenHashcodeBuiltMap({1: '1'}, 0) ==
+          (BuiltCollectionTestHelpers.overridenHashcodeBuiltMap({1: '1'}, 0)
+                  as Object) ==
               BuiltCollectionTestHelpers
                   .overridenHashcodeBuiltMapWithStringKeys({'1': '1'}, 0),
           false);
@@ -362,6 +372,7 @@ void main() {
           isTrue);
       expect(BuiltMap<int, String>({1: '1', 2: '2', 3: '3'}).containsKey(4),
           isFalse);
+      expect(BuiltMap<int?, String>({null: 'null'}).containsKey(null), isTrue);
     });
 
     test('has a method like Map.containsValue', () {
@@ -369,6 +380,7 @@ void main() {
           isTrue);
       expect(BuiltMap<int, String>({1: '1', 2: '2', 3: '3'}).containsValue('4'),
           isFalse);
+      expect(BuiltMap<int, String?>({1: null}).containsValue(null), isTrue);
     });
 
     test('has a method like Map.forEach', () {
